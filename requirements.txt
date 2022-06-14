@@ -1,4 +1,3 @@
-boto3
-awscli
-numpy
-pyyaml==5.1
+streamlit-pandas-profiling
+pandas-profiling
+openpyxl
