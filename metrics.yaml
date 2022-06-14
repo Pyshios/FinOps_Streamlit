@@ -1,0 +1,431 @@
+#Please Note the below cloudwatch metric data retention policy:
+#If hours specified below is between 3 hours and 15 days ago - Use a multiple of 60 seconds for the period (1 minute) else no datapoint will be returned by the API.
+#If hours specified below is between 15 and 63 days ago - Use a multiple of 300 seconds (5 minutes) else no datapoint will be returned by the API.
+#If hours specified below is greater than 63 days ago - Use a multiple of 3600 seconds (1 hour) else no datapoint will be returned by the API
+#More information on the above can be seen here: https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/cloudwatch.html#CloudWatch.Client.get_metric_data
+
+period: 300 #Specify Period in Seconds. Minimum is 60seconds except for high resolution metrics which supports 1seconds
+hours: 24 #Specify the length of metrics you want to fetch in hours
+statistics: "Average"
+
+metrics_to_be_collected:
+  ec2:
+    - "name": "CPUUtilization"
+      "namespace": "AWS/EC2"
+      "unit": "Percent"
+      "dimension_name": "InstanceId"
+    
+    - "name": "DiskReadOps"
+      "namespace": "AWS/EC2"
+      "unit": "Count"
+      "dimension_name": "InstanceId"
+    
+    - "name": "DiskWriteOps"
+      "namespace": "AWS/EC2"
+      "unit": "Count"
+      "dimension_name": "InstanceId"
+
+    - "name": "DiskReadBytes"
+      "namespace": "AWS/EC2"
+      "unit": "Bytes"
+      "dimension_name": "InstanceId"
+
+    - "name": "DiskWriteBytes"
+      "namespace": "AWS/EC2"
+      "unit": "Bytes"
+      "dimension_name": "InstanceId"
+
+    - "name": "NetworkIn"
+      "namespace": "AWS/EC2"
+      "unit": "Bytes"
+      "dimension_name": "InstanceId"
+    
+    - "name": "NetworkOut"
+      "namespace": "AWS/EC2"
+      "unit": "Bytes"
+      "dimension_name": "InstanceId"
+    
+    - "name": "NetworkPacketsIn"
+      "namespace": "AWS/EC2"
+      "unit": "Count"
+      "dimension_name": "InstanceId"
+
+    - "name": "NetworkPacketsOut"
+      "namespace": "AWS/EC2"
+      "unit": "Count"
+      "dimension_name": "InstanceId"
+  rds:
+    - "name": "BinLogDiskUsage"
+      "unit": "Bytes"
+      "namespace": "AWS/RDS"
+      "dimension_name": "DBInstanceIdentifier"
+    
+    - "name": "BurstBalance"
+      "unit": "Percent"
+      "namespace": "AWS/RDS"
+      "dimension_name": "DBInstanceIdentifier"
+    
+    - "name": "CPUUtilization"
+      "unit": "Percent"
+      "namespace": "AWS/RDS"
+      "dimension_name": "DBInstanceIdentifier"
+    
+    - "name": "DatabaseConnections"
+      "unit": "Count"
+      "namespace": "AWS/RDS"
+      "dimension_name": "DBInstanceIdentifier"
+  
+    - "name": "DiskQueueDepth"
+      "unit": "Count"
+      "namespace": "AWS/RDS"
+      "dimension_name": "DBInstanceIdentifier"
+
+    - "name": "FailedSQLServerAgentJobsCount"
+      "unit": "Count/Second"
+      "namespace": "AWS/RDS"
+      "dimension_name": "DBInstanceIdentifier"
+
+    - "name": "FreeableMemory"
+      "unit": "Bytes"
+      "namespace": "AWS/RDS"
+      "dimension_name": "DBInstanceIdentifier"
+
+    - "name": "FreeStorageSpace"
+      "unit": "Bytes"
+      "namespace": "AWS/RDS"
+      "dimension_name": "DBInstanceIdentifier"
+
+    - "name": "NetworkReceiveThroughput"
+      "unit": "Bytes/Second"
+      "namespace": "AWS/RDS"
+      "dimension_name": "DBInstanceIdentifier"
+
+    - "name": "NetworkTransmitThroughput"
+      "unit": "Bytes/Second"
+      "namespace": "AWS/RDS"
+      "dimension_name": "DBInstanceIdentifier"
+
+    - "name": "ReadIOPS"
+      "unit": "Count/Second"
+      "namespace": "AWS/RDS"
+      "dimension_name": "DBInstanceIdentifier"
+
+    - "name": "ReadLatency"
+      "unit": "Seconds"
+      "namespace": "AWS/RDS"
+      "dimension_name": "DBInstanceIdentifier"
+
+    - "name": "ReadThroughput"
+      "unit": "Bytes/Second"
+      "namespace": "AWS/RDS"
+      "dimension_name": "DBInstanceIdentifier"
+
+    - "name": "ReplicaLag"
+      "unit": "Seconds"
+      "namespace": "AWS/RDS"
+      "dimension_name": "DBInstanceIdentifier"
+
+    - "name": "SwapUsage"
+      "unit": "Bytes"
+      "namespace": "AWS/RDS"
+      "dimension_name": "DBInstanceIdentifier"
+
+    - "name": "WriteIOPS"
+      "unit": "Count/Second"
+      "namespace": "AWS/RDS"
+      "dimension_name": "DBInstanceIdentifier"
+
+    - "name": "WriteLatency"
+      "unit": "Seconds"
+      "namespace": "AWS/RDS"
+      "dimension_name": "DBInstanceIdentifier"
+      
+    - "name": "WriteThroughput"
+      "unit": "Bytes/Second"
+      "namespace": "AWS/RDS"
+      "dimension_name": "DBInstanceIdentifier"
+  lambda:
+    - "name": "Invocations"
+      "unit": "Count"
+      "namespace": "AWS/Lambda"
+      "dimension_name": "FunctionName"
+    
+    - "name": "Errors"
+      "unit": "Count"
+      "namespace": "AWS/Lambda"
+      "dimension_name": "FunctionName"
+
+    - "name": "DeadLetterErrors"
+      "unit": "Count"
+      "namespace": "AWS/Lambda"
+      "dimension_name": "FunctionName"
+
+    - "name": "Duration"
+      "unit": "Milliseconds"
+      "namespace": "AWS/Lambda"
+      "dimension_name": "FunctionName"
+    
+    - "name": "Throttles"
+      "unit": "Count"
+      "namespace": "AWS/Lambda"
+      "dimension_name": "FunctionName"
+
+    - "name": "IteratorAge"
+      "unit": "Milliseconds"
+      "namespace": "AWS/Lambda"
+      "dimension_name": "FunctionName"
+
+    - "name": "ConcurrentExecutions"
+      "unit": "Count"
+      "namespace": "AWS/Lambda"
+      "dimension_name": "FunctionName"
+
+    - "name": "UnreservedConcurrentExecutions"
+      "unit": "Count"
+      "namespace": "AWS/Lambda"
+      "dimension_name": "FunctionName"
+  alb:
+    - "name": "ActiveConnectionCount"
+      "unit": "Count"
+      "namespace": "AWS/ApplicationELB"
+      "dimension_name": "LoadBalancer"
+      "statistics": "Sum"
+    
+    - "name": "ClientTLSNegotiationErrorCount"
+      "unit": "Count"
+      "namespace": "AWS/ApplicationELB"
+      "dimension_name": "LoadBalancer"
+      "statistics": "Sum"
+    
+    - "name": "ConsumedLCUs"
+      "unit": "Count"
+      "namespace": "AWS/ApplicationELB"
+      "dimension_name": "LoadBalancer"
+    
+    - "name": "HTTP_Fixed_Response_Count"
+      "unit": "Count"
+      "namespace": "AWS/ApplicationELB"
+      "dimension_name": "LoadBalancer"
+      "statistics": "Sum"
+    
+    - "name": "HTTP_Redirect_Count"
+      "unit": "Count"
+      "namespace": "AWS/ApplicationELB"
+      "dimension_name": "LoadBalancer"
+      "statistics": "Sum"
+
+    - "name": "HTTP_Redirect_Url_Limit_Exceeded_Count"
+      "unit": "Count"
+      "namespace": "AWS/ApplicationELB"
+      "dimension_name": "LoadBalancer"
+      "statistics": "Sum"
+
+    - "name": "HTTPCode_ELB_3XX_Count"
+      "unit": "Count"
+      "namespace": "AWS/ApplicationELB"
+      "dimension_name": "LoadBalancer"
+      "statistics": "Sum"
+
+    - "name": "HTTPCode_ELB_4XX_Count"
+      "unit": "Count"
+      "namespace": "AWS/ApplicationELB"
+      "dimension_name": "LoadBalancer"
+      "statistics": "Sum"
+
+    - "name": "HTTPCode_ELB_5XX_Count"
+      "unit": "Count"
+      "namespace": "AWS/ApplicationELB"
+      "dimension_name": "LoadBalancer"
+      "statistics": "Sum"
+
+    - "name": "HTTPCode_ELB_500_Count"
+      "unit": "Count"
+      "namespace": "AWS/ApplicationELB"
+      "dimension_name": "LoadBalancer"
+      "statistics": "Sum"
+
+    - "name": "HTTPCode_ELB_502_Count"
+      "unit": "Count"
+      "namespace": "AWS/ApplicationELB"
+      "dimension_name": "LoadBalancer"
+      "statistics": "Sum"
+
+    - "name": "HTTPCode_ELB_503_Count"
+      "unit": "Count"
+      "namespace": "AWS/ApplicationELB"
+      "dimension_name": "LoadBalancer"
+      "statistics": "Sum"
+
+    - "name": "HTTPCode_ELB_504_Count"
+      "unit": "Count"
+      "namespace": "AWS/ApplicationELB"
+      "dimension_name": "LoadBalancer"
+      "statistics": "Sum"
+
+    - "name": "IPv6ProcessedBytes"
+      "unit": "Count"
+      "namespace": "AWS/ApplicationELB"
+      "dimension_name": "LoadBalancer"
+      "statistics": "Sum"
+
+    - "name": "IPv6RequestCount"
+      "unit": "Count"
+      "namespace": "AWS/ApplicationELB"
+      "dimension_name": "LoadBalancer"
+      "statistics": "Sum"
+
+    - "name": "NewConnectionCount"
+      "unit": "Count"
+      "namespace": "AWS/ApplicationELB"
+      "dimension_name": "LoadBalancer"
+      "statistics": "Sum"
+
+    - "name": "ProcessedBytes"
+      "unit": "Count"
+      "namespace": "AWS/ApplicationELB"
+      "dimension_name": "LoadBalancer"
+      "statistics": "Sum"
+
+    - "name": "RejectedConnectionCount"
+      "unit": "Count"
+      "namespace": "AWS/ApplicationELB"
+      "dimension_name": "LoadBalancer"
+      "statistics": "Sum"
+
+    - "name": "RequestCount"
+      "unit": "Count"
+      "namespace": "AWS/ApplicationELB"
+      "dimension_name": "LoadBalancer"
+      "statistics": "Sum"
+
+    - "name": "RuleEvaluations"
+      "unit": "Count"
+      "namespace": "AWS/ApplicationELB"
+      "dimension_name": "LoadBalancer"
+      "statistics": "Sum"
+  nlb:
+    - "name": "ActiveFlowCount"
+      "unit": "Count"
+      "namespace": "AWS/NetworkELB"
+      "dimension_name": "LoadBalancer"
+
+    - "name": "ActiveFlowCount_TLS"
+      "unit": "Count"
+      "namespace": "AWS/NetworkELB"
+      "dimension_name": "LoadBalancer"
+    
+    - "name": "ClientTLSNegotiationErrorCount"
+      "unit": "Count"
+      "namespace": "AWS/NetworkELB"
+      "dimension_name": "LoadBalancer"
+      "statistics": "Sum"
+    
+    - "name": "ConsumedLCUs"
+      "unit": "Count"
+      "namespace": "AWS/NetworkELB"
+      "dimension_name": "LoadBalancer"
+    
+    - "name": "HealthyHostCount"
+      "unit": "Count"
+      "namespace": "AWS/NetworkELB"
+      "dimension_name": "LoadBalancer"
+      "statistics": "Maximum"
+    
+    - "name": "NewFlowCount"
+      "unit": "Count"
+      "namespace": "AWS/NetworkELB"
+      "dimension_name": "LoadBalancer"
+      "statistics": "Sum"
+    
+    - "name": "NewFlowCount_TLS"
+      "unit": "Count"
+      "namespace": "AWS/NetworkELB"
+      "dimension_name": "LoadBalancer"
+      "statistics": "Sum"
+    
+    - "name": "ProcessedBytes"
+      "unit": "Count"
+      "namespace": "AWS/NetworkELB"
+      "dimension_name": "LoadBalancer"
+      "statistics": "Sum"
+    
+    - "name": "ProcessedBytes_TLS"
+      "unit": "Count"
+      "namespace": "AWS/NetworkELB"
+      "dimension_name": "LoadBalancer"
+      "statistics": "Sum"
+    
+    - "name": "TargetTLSNegotiationErrorCount"
+      "unit": "Count"
+      "namespace": "AWS/NetworkELB"
+      "dimension_name": "LoadBalancer"
+      "statistics": "Sum"
+    
+    - "name": "TCP_Client_Reset_Count"
+      "unit": "Count"
+      "namespace": "AWS/NetworkELB"
+      "dimension_name": "LoadBalancer"
+      "statistics": "Sum"
+    
+    - "name": "TCP_ELB_Reset_Count"
+      "unit": "Count"
+      "namespace": "AWS/NetworkELB"
+      "dimension_name": "LoadBalancer"
+      "statistics": "Sum"
+    
+    - "name": "TCP_Target_Reset_Count"
+      "unit": "Count"
+      "namespace": "AWS/NetworkELB"
+      "dimension_name": "LoadBalancer"
+      "statistics": "Sum"
+    
+    - "name": "UnHealthyHostCount"
+      "unit": "Count"
+      "namespace": "AWS/NetworkELB"
+      "dimension_name": "LoadBalancer"
+      "statistics": "Maximum"
+  apigateway:
+    - "name": "4XXError"
+      "unit": "Count"
+      "namespace": "AWS/ApiGateway"
+      "dimension_name": "ApiName"
+      "statistics": "Sum"
+    
+    - "name": "5XXError"
+      "unit": "Count"
+      "namespace": "AWS/ApiGateway"
+      "dimension_name": "ApiName"
+      "statistics": "Sum"
+
+    - "name": "CacheHitCount"
+      "unit": "Count"
+      "namespace": "AWS/ApiGateway"
+      "dimension_name": "ApiName"
+      "statistics": "Sum"
+
+    - "name": "CacheMissCount"
+      "unit": "Count"
+      "namespace": "AWS/ApiGateway"
+      "dimension_name": "ApiName"
+      "statistics": "Sum"
+
+    - "name": "Count"
+      "unit": "Count"
+      "namespace": "AWS/ApiGateway"
+      "dimension_name": "ApiName"
+      "statistics": "SampleCount"
+
+    - "name": "IntegrationLatency"
+      "unit": "Milliseconds"
+      "namespace": "AWS/ApiGateway"
+      "dimension_name": "ApiName"
+    
+    - "name": "Latency"
+      "unit": "Milliseconds"
+      "namespace": "AWS/ApiGateway"
+      "dimension_name": "ApiName"
+    
+    
+    
+    
+    
